@@ -18,10 +18,10 @@ public class ApplicationTest {
     private static final String LINE_SEPARATOR = System.lineSeparator();
     private static final String DB_CONNECTION_URL = "jdbc:postgresql://127.0.0.1:5432/";
     private static final String ADMIN_DB_NAME = "postgres";
-    private static final String DB_ADMIN_USER = "postgres";
+    private static final String DB_ADMIN_LOGIN = "postgres";
     private static final String DB_ADMIN_PASSWORD = "postgres";
-    private static final String DB_NAME = "sqlcmd";
-    private static final String DB_USER = "sqlcmd";
+    private static final String DB_USER_LOGIN = "sqlcmd";
+    private static final String DB_USER_PASSWORD = "sqlcmd";
     private static final String TEST_DB_NAME = "sqlcmd_test";
 
 
@@ -35,13 +35,13 @@ public class ApplicationTest {
 
     @BeforeClass
     public static void setConnection() throws SQLException {
-        connection = DriverManager.getConnection(DB_CONNECTION_URL + ADMIN_DB_NAME, DB_ADMIN_USER, DB_ADMIN_PASSWORD);
+        connection = DriverManager.getConnection(DB_CONNECTION_URL + ADMIN_DB_NAME, DB_ADMIN_LOGIN, DB_ADMIN_PASSWORD);
         executeSqlQuery("DROP DATABASE IF EXISTS " + TEST_DB_NAME);
-        executeSqlQuery("CREATE DATABASE " + TEST_DB_NAME + " OWNER =" + DB_USER);
+        executeSqlQuery("CREATE DATABASE " + TEST_DB_NAME + " OWNER =" + DB_USER_PASSWORD);
         connection.close();
-        connection = DriverManager.getConnection(DB_CONNECTION_URL + TEST_DB_NAME, DB_ADMIN_USER, DB_ADMIN_PASSWORD);
-        executeSqlQuery("DROP DATABASE IF EXISTS " + DB_NAME);
-        executeSqlQuery("CREATE DATABASE " + DB_NAME + " OWNER " + DB_USER);
+        connection = DriverManager.getConnection(DB_CONNECTION_URL + TEST_DB_NAME, DB_ADMIN_LOGIN, DB_ADMIN_PASSWORD);
+        executeSqlQuery("DROP DATABASE IF EXISTS " + DB_USER_LOGIN);
+        executeSqlQuery("CREATE DATABASE " + DB_USER_LOGIN + " OWNER " + DB_USER_PASSWORD);
         connection.close();
     }
 
