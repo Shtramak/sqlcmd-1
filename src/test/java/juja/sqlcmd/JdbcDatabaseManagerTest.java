@@ -17,7 +17,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
-public class DatabaseManagerTest {
+public class JdbcDatabaseManagerTest {
     private static final String DB_CONNECTION_URL = "jdbc:postgresql://127.0.0.1:5432/";
     private static final String ADMIN_DB_NAME = "postgres";
     private static final String DB_ADMIN_LOGIN = "postgres";
@@ -53,7 +53,7 @@ public class DatabaseManagerTest {
 
     @Before
     public void init() throws SQLException {
-        databaseManager = new DatabaseManager();
+        databaseManager = new JdbcDatabaseManager();
     }
 
     @After
