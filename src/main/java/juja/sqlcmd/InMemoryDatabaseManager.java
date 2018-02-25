@@ -10,6 +10,10 @@ public class InMemoryDatabaseManager implements DatabaseManager {
     }
 
     public void createTable(String tableName, int colums_nember) {
+        if (tableName == null) throw new IllegalArgumentException("Table name must be not null!");
+
+        if (colums_nember < 0) throw new IllegalArgumentException("Number of columns must be positive!");
+
         Table[] tmp = new Table[tables.length + 1];
         System.arraycopy(tables, 0, tmp, 0, tables.length);
         tables = tmp;
@@ -87,7 +91,7 @@ public class InMemoryDatabaseManager implements DatabaseManager {
 
         boolean insert(DataSet row) {
             if (row.getSize() != colums_nember) {
-                throw new RuntimeException("Number of elements in row must be" + colums_nember);
+                return false;
             }
             DataSet[] tmp = new DataSet[rows.length + 1];
             System.arraycopy(rows, 0, tmp, 0, rows.length);
