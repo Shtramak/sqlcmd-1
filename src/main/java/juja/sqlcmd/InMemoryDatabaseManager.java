@@ -9,16 +9,16 @@ public class InMemoryDatabaseManager implements DatabaseManager {
         tables = new Table[0];
     }
 
-    public void createTable(String tableName, int colums_nember) {
+    public void createTable(String tableName, int columns_number) {
         if (tableName == null) throw new IllegalArgumentException("Table name must be not null!");
 
-        if (colums_nember < 0) throw new IllegalArgumentException("Number of columns must be positive!");
+        if (columns_number < 0) throw new IllegalArgumentException("Number of columns must be positive!");
 
         Table[] tmp = new Table[tables.length + 1];
         System.arraycopy(tables, 0, tmp, 0, tables.length);
         tables = tmp;
         int lastElementIndex = tables.length - 1;
-        tables[lastElementIndex] = new Table(tableName, colums_nember);
+        tables[lastElementIndex] = new Table(tableName, columns_number);
     }
 
     @Override
@@ -72,12 +72,12 @@ public class InMemoryDatabaseManager implements DatabaseManager {
     private static class Table {
         private String tableName;
         private DataSet[] rows;
-        private int colums_nember;
+        private int columns_number;
         private int rows_number;
 
-        Table(String tableName, int colums_nember) {
+        Table(String tableName, int columns_number) {
             this.tableName = tableName;
-            this.colums_nember = colums_nember;
+            this.columns_number = columns_number;
             rows = new DataSet[0];
         }
 
@@ -90,7 +90,7 @@ public class InMemoryDatabaseManager implements DatabaseManager {
         }
 
         boolean insert(DataSet row) {
-            if (row.getSize() != colums_nember) {
+            if (row.getSize() != columns_number) {
                 return false;
             }
             DataSet[] tmp = new DataSet[rows.length + 1];
