@@ -13,5 +13,7 @@ public interface DatabaseManager {
 
     boolean delete(String tableName, int id);
 
+    boolean update(String tableName, int id);
+
     void close() throws SQLException;
 }

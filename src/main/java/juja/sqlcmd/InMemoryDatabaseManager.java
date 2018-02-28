@@ -56,6 +56,11 @@ public class InMemoryDatabaseManager implements DatabaseManager {
     }
 
     @Override
+    public boolean update(String tableName, int id) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public void close() throws SQLException {
         //NOP
     }
@@ -72,12 +77,11 @@ public class InMemoryDatabaseManager implements DatabaseManager {
     private static class Table {
         private String tableName;
         private DataSet[] rows;
-        private int columns_number;
-        private int rows_number;
+        private int columnsNumber;
 
-        Table(String tableName, int columns_number) {
+        Table(String tableName, int columnsNumber) {
             this.tableName = tableName;
-            this.columns_number = columns_number;
+            this.columnsNumber = columnsNumber;
             rows = new DataSet[0];
         }
 
@@ -90,7 +94,7 @@ public class InMemoryDatabaseManager implements DatabaseManager {
         }
 
         boolean insert(DataSet row) {
-            if (row.getSize() != columns_number) {
+            if (row.getSize() != columnsNumber) {
                 return false;
             }
             DataSet[] tmp = new DataSet[rows.length + 1];
