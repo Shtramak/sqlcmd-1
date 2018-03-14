@@ -9,10 +9,10 @@ public class Console implements View {
     private OutputStream outputStream;
 
     public Console() {
-        this(System.out, System.in);
+        this(System.in, System.out);
     }
 
-    public Console(OutputStream outputStream, InputStream inputStream) {
+    public Console(InputStream inputStream, OutputStream outputStream) {
         this.outputStream = outputStream;
         this.inputStream = inputStream;
     }

@@ -19,7 +19,7 @@ public class ConsoleTest {
         outputStream = new ByteArrayOutputStream();
         PrintStream printStream = new PrintStream(outputStream);
         System.setOut(printStream);
-        view = new Console(outputStream, inputStream);
+        view = new Console();
     }
 
     @Test
@@ -49,7 +49,7 @@ public class ConsoleTest {
     @Test
     public void readWhenEmptyLineReturnsEmptyStringWithLineSeparator() {
         String message = "";
-        setInputStreamMessage("");
+        setInputStreamMessage(message);
         String expected = message + System.lineSeparator();
         assertEquals(expected, view.read());
     }
@@ -57,7 +57,7 @@ public class ConsoleTest {
     private void setInputStreamMessage(String message) {
         message = message + System.lineSeparator();
         inputStream = new ByteArrayInputStream(message.getBytes());
-        view = new Console(null, inputStream);
+        view = new Console(inputStream, null);
         System.setIn(inputStream);
     }
 }
