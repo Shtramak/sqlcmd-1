@@ -2,35 +2,41 @@ package juja.sqlcmd.view;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.PrintStream;
-import java.util.NoSuchElementException;
-import java.util.Scanner;
+import java.io.OutputStream;
 
 public class Console implements View {
     private InputStream inputStream;
-    private PrintStream printStream;
+    private OutputStream outputStream;
 
-    public Console(PrintStream printStream, InputStream inputStream) {
-        this.printStream = printStream;
+    public Console() {
+        this(System.out, System.in);
+    }
+
+    public Console(OutputStream outputStream, InputStream inputStream) {
+        this.outputStream = outputStream;
         this.inputStream = inputStream;
     }
 
     @Override
     public void write(String message) {
         try {
-            printStream.write(message.getBytes());
+            outputStream.write(message.getBytes());
         } catch (IOException e) {
-            throw new RuntimeException("Something goes wrong... Reason:" + e.getMessage());
+            throw new RuntimeException("Something goes wrong with write method... Reason:" + e.getMessage());
         }
     }
 
     @Override
     public String read() {
-        Scanner scanner = new Scanner(inputStream);
+        StringBuilder line = new StringBuilder();
         try {
-            return scanner.nextLine();
-        } catch (NoSuchElementException e) {
-            return "";
+            while (inputStream.available() > 0) {
+                char symbol = (char) inputStream.read();
+                line.append(symbol);
+            }
+            return line.toString();
+        } catch (IOException e) {
+            throw new RuntimeException("Something goes wrong with read method... Reason:" + e.getMessage());
         }
     }
 }

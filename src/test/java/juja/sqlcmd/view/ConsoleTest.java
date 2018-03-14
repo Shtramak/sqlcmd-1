@@ -11,17 +11,19 @@ import static org.junit.Assert.assertEquals;
 
 public class ConsoleTest {
     private ByteArrayOutputStream outputStream;
+    private ByteArrayInputStream inputStream;
+    private View view;
 
     @Before
     public void setUp() {
         outputStream = new ByteArrayOutputStream();
         PrintStream printStream = new PrintStream(outputStream);
         System.setOut(printStream);
+        view = new Console(outputStream, inputStream);
     }
 
     @Test
     public void writeWhenRegularString() {
-        View view = new Console(System.out, null);
         String message = "Hello world!";
         view.write(message);
         String actual = outputStream.toString();
@@ -30,7 +32,6 @@ public class ConsoleTest {
 
     @Test
     public void writeWhenEmptyString() {
-        View view = new Console(System.out, null);
         String message = "";
         view.write(message);
         String actual = outputStream.toString();
@@ -38,16 +39,25 @@ public class ConsoleTest {
     }
 
     @Test
-    public void readWhenRegularLineReturnsLine() {
+    public void readWhenRegularLineReturnsLineWithLineSeparator() {
         String message = "Hello world!";
-        View view = new Console(null, new ByteArrayInputStream(message.getBytes()));
-        assertEquals(message, view.read());
+        setInputStreamMessage(message);
+        String expected = message + System.lineSeparator();
+        assertEquals(expected, view.read());
     }
 
     @Test
-    public void readWhenEmptyLineReturnsEmptyString() {
+    public void readWhenEmptyLineReturnsEmptyStringWithLineSeparator() {
         String message = "";
-        View view = new Console(null, new ByteArrayInputStream(message.getBytes()));
-        assertEquals(message, view.read());
+        setInputStreamMessage("");
+        String expected = message + System.lineSeparator();
+        assertEquals(expected, view.read());
+    }
+
+    private void setInputStreamMessage(String message) {
+        message = message + System.lineSeparator();
+        inputStream = new ByteArrayInputStream(message.getBytes());
+        view = new Console(null, inputStream);
+        System.setIn(inputStream);
     }
 }
