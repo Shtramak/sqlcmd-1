@@ -1,7 +1,9 @@
 package juja.sqlcmd.view;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 
 public class Console implements View {
@@ -28,13 +30,9 @@ public class Console implements View {
 
     @Override
     public String read() {
-        StringBuilder line = new StringBuilder();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
         try {
-            while (inputStream.available() > 0) {
-                char symbol = (char) inputStream.read();
-                line.append(symbol);
-            }
-            return line.toString();
+            return reader.readLine();
         } catch (IOException e) {
             throw new RuntimeException("Something goes wrong with read method... Reason:" + e.getMessage());
         }
