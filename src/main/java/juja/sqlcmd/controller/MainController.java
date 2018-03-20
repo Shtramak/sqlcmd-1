@@ -11,4 +11,8 @@ public class MainController {
         this.view = view;
         this.databaseManager = databaseManager;
     }
+
+    public void run(){
+
+    }
 }
